@@ -15,13 +15,16 @@
  */
 package com.example.android.materialme
 
+
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import java.util.*
+
 
 /***
  * Main Activity for the Material Me app, a mock sports news application.
@@ -35,12 +38,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val gridColumnCount = resources.getInteger(R.integer.grid_column_count)
         // Initialize the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerView)
 
         // Set the Layout Manager.
         mRecyclerView.setLayoutManager(LinearLayoutManager(this))
 
+        mRecyclerView.setLayoutManager(GridLayoutManager(
+                this , gridColumnCount))
         // Initialize the ArrayList that will contain the data.
         mSportsData = ArrayList()
 
@@ -50,13 +56,19 @@ class MainActivity : AppCompatActivity() {
 
         // Get the data.
         initializeData()
-
+        // If there is more than one column, disable swipe to dismiss
+        val swipeDirs: Int
+        swipeDirs = if (gridColumnCount > 1) {
+            0
+        } else {
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        }
         // Helper class for creating swipe to dismiss and drag and drop
         // functionality.
         val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or
                         ItemTouchHelper.DOWN or ItemTouchHelper.UP ,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                swipeDirs) {
             /**
              * Defines the drag and drop functionality.
              *
