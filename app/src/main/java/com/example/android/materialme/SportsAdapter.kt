@@ -48,7 +48,8 @@ internal class SportsAdapter
      */
     override fun onCreateViewHolder(
             parent: ViewGroup , viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item , parent , false))
+        return ViewHolder(LayoutInflater.from(mContext)
+                .inflate(R.layout.list_item , parent , false))
     }
 
     /**

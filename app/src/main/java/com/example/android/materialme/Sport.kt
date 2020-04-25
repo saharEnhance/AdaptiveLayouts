@@ -18,7 +18,7 @@ package com.example.android.materialme
 /**
  * Data model for each row of the RecyclerView
  */
-class Sport
+internal class Sport
 /**
  * Constructor for the Sport data model.
  *

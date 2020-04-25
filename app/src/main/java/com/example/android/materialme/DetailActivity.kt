@@ -44,7 +44,9 @@ class DetailActivity : AppCompatActivity() {
         sportsTitle.text = intent.getStringExtra("title")
 
         // Load the image using the Glide library and the Intent extra.
-        Glide.with(this).load(intent.getIntExtra("image_resource" , 0))
+        Glide.with(this)
+                .load(intent
+                        .getIntExtra("image_resource" , 0))
                 .into(sportsImage)
     }
 }
