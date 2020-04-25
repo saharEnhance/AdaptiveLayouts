@@ -15,16 +15,13 @@
  */
 package com.example.android.materialme
 
-
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import java.util.*
-
 
 /***
  * Main Activity for the Material Me app, a mock sports news application.
@@ -32,21 +29,22 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     // Member variables.
     lateinit var mRecyclerView: RecyclerView
-    lateinit var mSportsData: ArrayList<Sport?>
+    internal lateinit var mSportsData: ArrayList<Sport?>
     private var mAdapter: SportsAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val gridColumnCount = resources.getInteger(R.integer.grid_column_count)
         // Initialize the RecyclerView.
         mRecyclerView = findViewById(R.id.recyclerView)
 
-        // Set the Layout Manager.
-        mRecyclerView.setLayoutManager(LinearLayoutManager(this))
+        // Get the appropriate column count.
+        val gridColumnCount = resources.getInteger(R.integer.grid_column_count)
 
+        // Set the Layout Manager.
         mRecyclerView.setLayoutManager(GridLayoutManager(
                 this , gridColumnCount))
+
         // Initialize the ArrayList that will contain the data.
         mSportsData = ArrayList()
 
@@ -56,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         // Get the data.
         initializeData()
+
         // If there is more than one column, disable swipe to dismiss
         val swipeDirs: Int
         swipeDirs = if (gridColumnCount > 1) {
@@ -63,8 +62,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         }
+
         // Helper class for creating swipe to dismiss and drag and drop
-        // functionality.
+        // functionality
         val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or
                         ItemTouchHelper.DOWN or ItemTouchHelper.UP ,
@@ -72,11 +72,11 @@ class MainActivity : AppCompatActivity() {
             /**
              * Defines the drag and drop functionality.
              *
-             * @param recyclerView The RecyclerView that contains the list items
-             * @param viewHolder The SportsViewHolder that is being moved
+             * @param recyclerView The RecyclerView that contains the list items.
+             * @param viewHolder The SportsViewHolder that is being moved.
              * @param target The SportsViewHolder that you are switching the
              * original one with.
-             * @return true if the item was moved, false otherwise
+             * @return returns true if the item was moved, false otherwise
              */
             override fun onMove(recyclerView: RecyclerView ,
                                 viewHolder: RecyclerView.ViewHolder ,
@@ -119,14 +119,13 @@ class MainActivity : AppCompatActivity() {
                 .getStringArray(R.array.sports_titles)
         val sportsInfo = resources
                 .getStringArray(R.array.sports_info)
-        val sportsImageResources = resources
-                .obtainTypedArray(R.array.sports_images)
+        val sportsImageResources = resources.obtainTypedArray(R.array.sports_images)
 
         // Clear the existing data (to avoid duplication).
         mSportsData!!.clear()
 
         // Create the ArrayList of Sports objects with the titles and
-        // information about each sport
+        // information about each sport.
         for (i in sportsList.indices) {
             mSportsData!!.add(Sport(sportsList[i] , sportsInfo[i] ,
                     sportsImageResources.getResourceId(i , 0)))
